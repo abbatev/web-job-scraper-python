@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <title>Listings</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header-and-logout">
+            <div class="header">
+                <h1>Dashboard</h1>
+            </div>
+        
+            <div class="logout">
+                <form action="/logout">
+                    <button type="submit" class="logout-button">Log out</button>
+                </form>
+            </div>
+        </div>
+        <h2 class="welcome-message">Welcome {{ one_user.first_name }} {{ one_user.last_name }}!</h2>
+        <table class="table">
+            <thead>
+                <caption class="caption">Job listings</caption>
+                <tr>
+                    <th>URL</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Details</th>
+                    <th>Owner</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for one_listing in all_listings %}
+                <tr>
+                    <td>{{ one_listing.url }}</td>
+                    <td>{{ one_listing.date }}</td>
+                    <td>{{ one_listing.description}}</td>
+                    <td>{{ one_listing.details}}</td>
+                    <td>{{ one_listing.notes}}</td>
+                    <td>{{ one_listing.owner.first_name }} {{ one_listing.owner.last_name }}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <a class="button btn-link" href="/show/{{ one_listing.id }}">View</a>
+                            |
+                            {% if session['logged_in_id'] == one_listing.user_id %}
+                            <a class="button btn-link" href="/edit/{{ one_listing.id }}">Edit</a>
+                            |
+                            <form action="/delete" method="post">
+                                <input type="hidden" name="id" value="{{ one_listing.id }}">
+                                <button type="submit" class="button btn-link">Delete</button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h3 class="reported-listings-heading">Add a scraper task</h3>
+        <div class="mb-3">
+            <form action="/create/listing/" method="post">
+                {% with messages = get_flashed_messages(category_filter=['listing']) %}
+                {% if messages %}
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <div class="mb-3">
+                    <label for="location" class="form-label">URL</label>
+                    <input type="text" class="form-control" id="location" name="url" placeholder="">
+                </div>
+                <div>
+                    <label for="input-date">Task date</label>
+                    <input id="input-date" type="date" name="date">
+                    <span class="result"></span>
+                </div>
+                <div class="form-outline">
+                    <label class="form-label" for="typeText">Description</label>
+                    <input type="text" id="typeText" class="form-control" name="description" />
+                </div>
+                <div class="form-outline">
+                    <input type="hidden" name="details" value="Scrape pending">
+                </div>
+                <div class="form-outline">
+                    <label class="form-label" for="typeText">Notes</label>
+                    <input type="text" id="typeText" class="form-control" name="notes" />
+                </div>
+                <div class="mb-3">
+                    <input type="hidden" class="hidden" name="user_id" value="{{ session['logged_in_id'] }}">
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary">Save task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

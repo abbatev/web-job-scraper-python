@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="static/css/sign_in.css">
+    <title>Join Job Scraper</title>
+</head>
+
+<body>
+    <div class="container">
+      <div class="left-column">
+        <img src="static/images/scraper.jpg" alt="Hero Image">
+      </div>
+      <div class="right-column">
+        <h2>Sign in to Job Scraper</h2>
+        <p>Please enter your email and password.</p>
+        <form action="/login" method="post"> 
+            {% with messages = get_flashed_messages(category_filter=['login']) %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <div class="mb-3">
+                <label for="login-email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="login-email" name="email">
+            </div>
+
+            <div class="mb-3">
+                <label for="login-password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="login-password" name="password" placeholder="">
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+        <div class="signup-link">
+          <p>Don't have an account? <a href="/sign_up">Sign up</a>.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

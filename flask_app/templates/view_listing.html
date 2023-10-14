@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/view_listing.css') }}">
+    <title>View listing</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header-and-logout">
+            <div class="header">
+                <h1>{{one_listing.url}}</h1>
+            </div>
+            <div class="logout">
+                <form action="/logout">
+                    <button type="submit" class="logout-button">Log out</button>
+                </form>
+            </div>
+        </div>
+        <div class="owner">
+            <h2>Added by {{one_listing.owner.first_name}} {{one_listing.owner.last_name}} on {{one_listing.date}}</h2>
+        </div>
+        <div class="paragraph">
+            <p><strong>URL:</strong> {{one_listing.url}}</p>
+        </div>
+        <div class="paragraph">
+            <p><strong>Date:</strong> {{one_listing.date}}</p>
+        </div>
+        <div class="paragraph">
+            <p><strong>Description</strong> {{one_listing.description}}</p>
+        </div>
+        <div class="paragraph">
+            <p><strong>Details</strong> {{one_listing.details}}</p>
+        </div>
+        <div class="paragraph">
+            <p><strong>Notes:</strong> {{one_listing.notes}}</p>
+        </div>
+    </div>
+</body>
+
+</html>
